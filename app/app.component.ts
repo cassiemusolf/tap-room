@@ -6,11 +6,12 @@ import { Component } from '@angular/core';
   <div>
     <h1>Tap Room</h1>
     <ul>
-      <li *ngFor="let currentKeg of kegs">{{currentKeg.brand}}   <button (click)="editKeg()">Edit!</button></li>
+      <li *ngFor="let currentKeg of kegs">{{currentKeg.brand}}
+      <button (click)="editKeg(currentKeg)">Edit!</button></li>
     </ul>
   </div>
 
-  <div>
+  <div *ngIf="selectedKeg">
     <h3>Edit Keg</h3>
     <label>Brand:</label>
     <input [(ngModel)]="selectedKeg.brand">
@@ -20,6 +21,7 @@ import { Component } from '@angular/core';
     <input [(ngModel)]="selectedKeg.alcoholContent">
     <label>Volume:</label>
     <input [(ngModel)]="selectedKeg.volume">
+     <button (click)="finishedEditing()">Done</button>
   </div>
   `
 })
@@ -36,12 +38,17 @@ export class AppComponent {
     new Keg('Rogue Yellow Snow IPA', 7, 8, 124)
   ];
 
-  editKeg() {
-    alert("Want to edit this keg");
+  selectedKeg = null;
+
+  editKeg(clickedKeg) {
+    this.selectedKeg = clickedKeg;
   }
 
-  selectedKeg: Keg = this.kegs[0];
+  finishedEditing() {
+  this.selectedKeg = null;
+  }
 }
+
 
 
 export class Keg {
