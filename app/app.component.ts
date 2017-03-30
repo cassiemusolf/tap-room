@@ -1,17 +1,12 @@
 import { Component } from '@angular/core';
+import { Keg } from './keg.model';
 
 @Component({
   selector: 'app-root',
   template: `
   <div>
     <h1>Tap Room</h1>
-    <ul>
-      <li [class]="stylingKegs(currentKeg)" *ngFor="let currentKeg of kegs">{{currentKeg.brand}}
-      <button (click)="editKeg(currentKeg)">Edit!</button>
-      <button (click)='showKeg(currentKeg)'>Show details</button>
-      <button (click)="buyPint(currentKeg)">Buy</button>
-      </li>
-    </ul>
+    <keg-list [childKegList]="masterKegList" (clickSender)="editKeg($event)"></keg-list>
       <button (click)="closeToEmpty(kegs)">See almost empty kegs</button>
   </div>
 
@@ -22,22 +17,8 @@ import { Component } from '@angular/core';
       </ul>
   </div>
 
-  <!-- <div>
-    <button ng-click="showForm()">Add New Keg</button>
-  </div> -->
+<new-keg (newKegSender)="addKeg($event)"></new-keg>
 
-  <div ng-show="addKeg">
-    <h2>New Keg</h2>
-    <label>Brand:</label>
-    <input #newBrand>
-    <label>Price:</label>
-    <input #newPrice>
-    <label>Alcohol Content:</label>
-    <input #newAlcoholContent>
-    <label>Volume:</label>
-    <input #newVolume>
-    <button (click)="submitForm(newBrand.value, newPrice.value, newAlcoholContent.value, newVolume.value); newBrand.value=''; newPrice.value=''; newAlcoholContent.value=''; newVolume.value='';">Add</button>
-  </div>
 
   <div *ngIf="showDetails">
   <p>{{showDetails.brand}}</p>
@@ -47,24 +28,16 @@ import { Component } from '@angular/core';
   <button (click)="hideDetails()">Hide Details</button>
   </div>
 
+  <edit-keg [childSelectedKeg]="selectedKeg" (doneButtonClickedSender)="finishedEditing()"></edit-keg>
 
-  <div *ngIf="selectedKeg">
-    <h3>Edit Keg</h3>
-    <label>Brand:</label>
-    <input [(ngModel)]="selectedKeg.brand">
-    <label>Price:</label>
-    <input [(ngModel)]="selectedKeg.price">
-    <label>Alcohol Content:</label>
-    <input [(ngModel)]="selectedKeg.alcoholContent">
-    <label>Volume:</label>
-    <input [(ngModel)]="selectedKeg.volume">
-     <button (click)="finishedEditing()">Done</button>
-  </div>
   `
 })
 
 export class AppComponent {
-  kegs: Keg[] = [
+
+  almostEmpty: Keg[] = [];
+
+  masterKegList: Keg[] = [
     new Keg('Heineken Lager', 5, 6.4, 124),
     new Keg('Newcastle Brown Ale', 6, 7, 124),
     new Keg('Coors Light Lager', 7, 7.8, 124),
@@ -74,8 +47,6 @@ export class AppComponent {
     new Keg('Bells Oberon Wheat Ale', 6, 7.8, 124),
     new Keg('Rogue Yellow Snow IPA', 7, 8, 124)
   ];
-
-  almostEmpty: Keg[] = [];
 
   showDetails = null;
 
@@ -89,48 +60,26 @@ export class AppComponent {
 
   selectedKeg = null;
 
+  finishedEditing() {
+    this.selectedKeg = null;
+  }
+
   editKeg(clickedKeg) {
     this.selectedKeg = clickedKeg;
   }
 
-  finishedEditing() {
-  this.selectedKeg = null;
-  }
-
-  buyPint(clickedKeg) {
-    clickedKeg.volume -= 1;
-  }
-
   closeToEmpty(kegs) {
     var emptyList = this.almostEmpty;
-    kegs.forEach(function (keg) {
+    this.masterKegList.forEach(function (keg) {
       if (keg.volume < 10){
         (emptyList).push(keg);
       }
     })
   }
 
-  stylingKegs(currentKeg) {
-    var style1: string = "";
-    var style2: string = "";
-    if(currentKeg.price <= 5) {
-      style1 = "bg-success";
-    } else if (currentKeg.price >= 5) {
-      style1 = "bg-info";
-    }
-
-    if (currentKeg.alcoholContent >= 7) {
-      style2 = "text-danger";
-    }
-    return style1 + " " + style2;
+  addKeg(newKegFromChild: Keg) {
+    this.masterKegList.push(newKegFromChild);
   }
 
-  submitForm(brand: string, price: number, alcoholContent: number, volume: number) {
-    var newKegToAdd: Keg = new Keg(brand, price, alcoholContent, volume);
-    this.kegs.push(newKegToAdd);
-  }
-}
 
-export class Keg {
-  constructor(public brand: string, public price: number, public alcoholContent: number, public volume: number) {}
 }
