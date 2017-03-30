@@ -6,12 +6,20 @@ import { Component } from '@angular/core';
   <div>
     <h1>Tap Room</h1>
     <ul>
-      <li *ngFor="let currentKeg of kegs">{{currentKeg.brand}}
+      <li [class]="stylingKegs(currentKeg)" *ngFor="let currentKeg of kegs">{{currentKeg.brand}}
       <button (click)="editKeg(currentKeg)">Edit!</button>
       <button (click)='showKeg(currentKeg)'>Show details</button>
       <button (click)="buyPint(currentKeg)">Buy</button>
       </li>
     </ul>
+      <button (click)="closeToEmpty(kegs)">See almost empty kegs</button>
+  </div>
+
+  <div>
+    <h1>Almost Empty Kegs</h1>
+      <ul>
+        <li *ngFor="let keg of almostEmpty">{{keg.brand}}</li>
+      </ul>
   </div>
 
   <!-- <div>
@@ -61,11 +69,13 @@ export class AppComponent {
     new Keg('Newcastle Brown Ale', 6, 7, 124),
     new Keg('Coors Light Lager', 7, 7.8, 124),
     new Keg('Paulaner Oktoberfest Marzen Amber', 8, 6.9, 124),
-    new Keg('DAB Original Lager', 9, 5.3, 124),
-    new Keg('Widmer Hefeweizen', 8, 8, 124),
+    new Keg('DAB Original Lager', 5, 5.3, 124),
+    new Keg('Widmer Hefeweizen', 4, 8, 124),
     new Keg('Bells Oberon Wheat Ale', 6, 7.8, 124),
     new Keg('Rogue Yellow Snow IPA', 7, 8, 124)
   ];
+
+  almostEmpty: Keg[] = [];
 
   showDetails = null;
 
@@ -91,15 +101,29 @@ export class AppComponent {
     clickedKeg.volume -= 1;
   }
 
+  closeToEmpty(kegs) {
+    var emptyList = this.almostEmpty;
+    kegs.forEach(function (keg) {
+      if (keg.volume < 10){
+        (emptyList).push(keg);
+      }
+    })
+  }
 
-  // addKeg() {
-  //   this.showForm = newForm;
-  // }
+  stylingKegs(currentKeg) {
+    var style1: string = "";
+    var style2: string = "";
+    if(currentKeg.price <= 5) {
+      style1 = "bg-success";
+    } else if (currentKeg.price >= 5) {
+      style1 = "bg-info";
+    }
 
-    // $scope.addKeg = false;
-    // $scope.showForm = function() {
-    //   $scope.addKeg = !$scope.addKeg;
-    // }
+    if (currentKeg.alcoholContent >= 7) {
+      style2 = "text-danger";
+    }
+    return style1 + " " + style2;
+  }
 
   submitForm(brand: string, price: number, alcoholContent: number, volume: number) {
     var newKegToAdd: Keg = new Keg(brand, price, alcoholContent, volume);
