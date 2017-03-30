@@ -1,0 +1,56 @@
+.jumbotron {
+  background-image: url("/resources/images/taps.jpg");
+  height: 500px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.7;
+}
+
+#top {
+  color: black;
+  font-size: 100px;
+  float: center;
+  margin-top: -400px;
+  opacity: .9 !important;
+  text-align: center;
+}
+
+#list {
+  margin-top: 300px;
+}
+
+li {
+  font-size: 30px;
+  margin: 10px;
+}
+
+select {
+  font-size: 25px;
+  margin-bottom: 20px;
+}
+
+body {
+  margin-bottom: 40px;
+}
+
+button {
+  float: right;
+  margin-left: 15px;
+  margin-top: 4px;
+  font-size: 20px;
+}
+
+p {
+  font-size: 20px;
+}
+
+#title {
+  font-size: 30px;
+}
+
+.details {
+  border: solid 1px black;
+  margin-top: 40px;
+  padding: 20px;
+}

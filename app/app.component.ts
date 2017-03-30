@@ -4,11 +4,12 @@ import { Keg } from './keg.model';
 @Component({
   selector: 'app-root',
   template: `
-  <div>
-    <h1>Tap Room</h1>
-    <keg-list [childKegList]="masterKegList" (clickSender)="editKeg($event)"></keg-list>
-      <button (click)="closeToEmpty(kegs)">See almost empty kegs</button>
+  <div  class="jumbotron">
   </div>
+  <h1 id="top">Tap Room</h1>
+  <div class="container" id="list">
+    <keg-list [childKegList]="masterKegList" (clickSender)="editKeg($event)"></keg-list>
+      <button class="btn btn-primary" (click)="closeToEmpty(kegs)">See almost empty kegs</button>
 
   <div>
     <h1>Almost Empty Kegs</h1>
@@ -21,6 +22,7 @@ import { Keg } from './keg.model';
 
 
   <edit-keg [childSelectedKeg]="selectedKeg" (doneButtonClickedSender)="finishedEditing()"></edit-keg>
+  </div>
 
   `
 })

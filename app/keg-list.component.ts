@@ -13,18 +13,18 @@ import { Keg } from './keg.model';
 
   <ul>
     <li [class]="stylingKegs(currentKeg)" *ngFor="let currentKeg of childKegList | almostEmpty:filterByFullness">{{currentKeg.brand}}
-    <button (click)="editButtonHasBeenClicked(currentKeg)">Edit!</button>
-    <button (click)='showKeg(currentKeg)'>Show details</button>
-    <button (click)="buyPint(currentKeg)">Buy</button>
+    <button class="btn" (click)="editButtonHasBeenClicked(currentKeg)">Edit!</button>
+    <button class="btn" (click)='showKeg(currentKeg)'>Show details</button>
+    <button class="btn btn-secondary" (click)="buyPint(currentKeg)">Buy</button>
     </li>
   </ul>
 
-  <div *ngIf="showDetails">
-  <p>{{showDetails.brand}}</p>
-  <p>{{showDetails.price}}</p>
-  <p>{{showDetails.alcoholContent}}</p>
-  <p>{{showDetails.volume}}</p>
-  <button (click)="hideDetails()">Hide Details</button>
+  <div *ngIf="showDetails" class="details">
+  <p id="title">{{showDetails.brand}}</p>
+  <p>Price: {{showDetails.price}}</p>
+  <p>Alcohol Content: {{showDetails.alcoholContent}}</p>
+  <p>Pints Left: {{showDetails.volume}}</p>
+  <button class="btn" (click)="hideDetails()">Hide Details</button>
   </div>
 
   `
@@ -69,9 +69,9 @@ export class KegListComponent {
       style1 = "bg-info";
     }
 
-    if (currentKeg.alcoholContent >= 7) {
-      style2 = "text-danger";
-    }
+    // if (currentKeg.alcoholContent >= 7) {
+    //   style2 = "text-danger";
+    // }
     return style1 + " " + style2;
   }
 
