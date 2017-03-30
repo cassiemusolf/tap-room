@@ -20,14 +20,6 @@ import { Keg } from './keg.model';
 <new-keg (newKegSender)="addKeg($event)"></new-keg>
 
 
-  <div *ngIf="showDetails">
-  <p>{{showDetails.brand}}</p>
-  <p>{{showDetails.price}}</p>
-  <p>{{showDetails.alcoholContent}}</p>
-  <p>{{showDetails.volume}}</p>
-  <button (click)="hideDetails()">Hide Details</button>
-  </div>
-
   <edit-keg [childSelectedKeg]="selectedKeg" (doneButtonClickedSender)="finishedEditing()"></edit-keg>
 
   `
@@ -48,15 +40,6 @@ export class AppComponent {
     new Keg('Rogue Yellow Snow IPA', 7, 8, 124)
   ];
 
-  showDetails = null;
-
-  showKeg(clickedKeg) {
-    this.showDetails = clickedKeg;
-  }
-
-  hideDetails() {
-    this.showDetails = null;
-  }
 
   selectedKeg = null;
 
